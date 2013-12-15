@@ -1,14 +1,6 @@
 package model;
 
 import java.awt.*;
-
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 21:18
- * To change this template use File | Settings | File Templates.
- */
 public class Player implements Comparable<Player> {
     private Color color;
     public Strategy strategy;

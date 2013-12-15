@@ -2,13 +2,6 @@ import model.*;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 21:35
- * To change this template use File | Settings | File Templates.
- */
 public class DummyStrategy implements Strategy {
     private World world;
     private Game game;

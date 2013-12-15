@@ -5,13 +5,7 @@ import java.util.List;
 
 import static model.Direction.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 21:35
- * To change this template use File | Settings | File Templates.
- */
+
 public class QuickGuyStrategy3 implements Strategy {
     public static final int MAX_PATH = 999;
     public static final int DISTANCE_TO_WAYPOINT = 5;

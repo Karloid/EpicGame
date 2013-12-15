@@ -1,12 +1,5 @@
 package model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 08.12.13
- * Time: 21:36
- * To change this template use File | Settings | File Templates.
- */
 public class Point {
     public int y;
     public int x;

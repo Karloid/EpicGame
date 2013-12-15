@@ -2,13 +2,6 @@ package model;
 
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 21:10
- * To change this template use File | Settings | File Templates.
- */
 public class World {
     private final int spawnUnitCount;
     private CellType[][] cells;

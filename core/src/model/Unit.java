@@ -2,13 +2,6 @@ package model;
 
 import java.awt.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 21:22
- * To change this template use File | Settings | File Templates.
- */
 public class Unit {
     public final Player player;
     private final int id;

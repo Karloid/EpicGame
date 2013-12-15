@@ -5,13 +5,7 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: glotovd
- * Date: 03.12.13
- * Time: 22:06
- * To change this template use File | Settings | File Templates.
- */
+
 public class MyFrame extends JFrame {
     private static int cellSize;
     public static final int Y_OFFSET = 25;
