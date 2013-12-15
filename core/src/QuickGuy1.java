@@ -1,12 +1,14 @@
 import model.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static model.Direction.*;
 
 
-public class QuickGuyStrategy3 implements Strategy {
+public class QuickGuy1 implements Strategy {
     public static final int MAX_PATH = 999;
     public static final int DISTANCE_TO_WAYPOINT = 5;
     private static final int SELF_MEDIC_MAX_HP = 100;
@@ -28,6 +30,8 @@ public class QuickGuyStrategy3 implements Strategy {
     private static ArrayList<Point> movePoints;
     private static int movePointIndex = 0;
 
+    private static Set<Unit> targets;
+
 
     @Override
     public void move(Game game, World world, Unit self, Move move) {
@@ -42,6 +46,8 @@ public class QuickGuyStrategy3 implements Strategy {
             setFirstMoveIndex();
             initCaptain();
             firstRun = false;
+
+            targets = new HashSet<Unit>();
         }
         if (captainIsDead()) {
             initCaptain();
@@ -52,12 +58,44 @@ public class QuickGuyStrategy3 implements Strategy {
             return;
         }
 
+
         if (medicActions()) {
             return;
         }
 
+        if (moveToTargetActions())
+            return;
+
         if (moveActions())
             return;
+
+    }
+
+    private boolean moveToTargetActions() {
+        Unit moveTarget = null;
+        removeDeadTargets();
+        for (Unit unit : targets) {
+            if (moveTarget == null || world.getDistance(self, moveTarget)
+                    > world.getDistance(self, unit))
+                moveTarget = unit;
+        }
+        if (moveTarget != null) {
+            move.setAction(ActionType.MOVE);
+            moveReal(new Point(moveTarget), 0, 0, false, true);
+            return true;
+        }
+        return false;
+    }
+
+    private void removeDeadTargets() {
+        Set<Unit> deadUnits = new HashSet<Unit>();
+        for (Unit unit : targets) {
+            if (unit.isDead()) {
+                deadUnits.add(unit);
+            }
+        }
+        targets.removeAll(deadUnits);
+
 
     }
 
@@ -146,6 +184,7 @@ public class QuickGuyStrategy3 implements Strategy {
                 move.setX(unit.x);
                 move.setY(unit.y);
                 target = unit;
+                targets.add(unit);
                 return true;
             }
         }
@@ -160,7 +199,7 @@ public class QuickGuyStrategy3 implements Strategy {
         } else {
             for (Unit unit : units) {
                 if (unit.getId() == captainId) {
-                    moveReal(world.getFreePointNear(new Point(unit)), 10, 0, true);
+                    moveReal(world.getFreePointNear(new Point(unit)), 10, 0, true, true);
                     break;
                 }
             }
@@ -184,9 +223,9 @@ public class QuickGuyStrategy3 implements Strategy {
 
         //moveReal(movePoints.get(movePointIndex), 1, 0);
 
-        moveReal(new Point(self), 0, 0, false);
+        moveReal(new Point(self), 0, 0, false, true);
         if (path[movePoints.get(movePointIndex).x][movePoints.get(movePointIndex).y] != 999) {
-            moveReal(movePoints.get(movePointIndex), 0, 0, true);
+            moveReal(movePoints.get(movePointIndex), 0, 0, true, true);
         } else {
             Point point = null;
             for (int x = 0; x < world.getWidth(); x++) {
@@ -200,7 +239,7 @@ public class QuickGuyStrategy3 implements Strategy {
                     }
                 }
             }
-            moveReal(point, 0, 0, true);
+            moveReal(point, 0, 0, true, true);
         }
         //  log("captain move " + move + " " + self);
     }
@@ -216,8 +255,8 @@ public class QuickGuyStrategy3 implements Strategy {
     }
 
 
-    private int moveReal(Point point, int distance, int safeWay, boolean fastFind) {
-        if (path != null && Math.random() > 0.4) {
+    private int moveReal(Point point, int distance, int safeWay, boolean fastFind, boolean instantFind) {
+        if (!instantFind && path != null && Math.random() > 0.5) {
             return 0;
         }
         path = new int[world.getWidth()][world.getHeight()];

@@ -10,7 +10,7 @@ public class Unit {
     public int x;
     private static int currentId = 0;
     private int hp;
-    private UnitType type;
+    protected UnitType type;
 
     public Unit(int x, int y, Player player, UnitType type) {
         this.id = currentId++;

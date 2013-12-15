@@ -14,10 +14,12 @@ public class World {
     private Game game;
     private int moveCount;
     public Map<Unit, Move> moves;
+    protected List<Corpse> corpses;
 
     public World(int width, int height, int spawnUnitCount, int cellSize) {
         players = new ArrayList<Player>();
         units = new ArrayList<Unit>();
+        corpses = new ArrayList<Corpse>();
 
         this.width = width;
         this.height = height;
@@ -36,7 +38,7 @@ public class World {
 
     private void randomizeCells() {
         //...
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 15; i++)
             createCellsRectangle((int) (width * Math.random()), (int) (height * Math.random()), 1 + (int) (width / 6 * Math.random()), 1 + (int) (height / 6 * Math.random()));
     }
 
@@ -241,6 +243,7 @@ public class World {
         for (Unit unit : units) {
             if (unit.isDead()) {
                 unitsToRemove.add(unit);
+                corpses.add(new Corpse(unit));
             }
         }
         units.removeAll(unitsToRemove);
@@ -256,11 +259,11 @@ public class World {
     private void addUnits(int x, int y, int count, Player player) {
         for (int i = 0; i <= count; i++) {
             Point point = getFreePointNear(x, y);
-            units.add(new Unit(point.x, point.y, player, UnitType.SOLDIER));
-        }
-        for (int i = 0; i <= count / 5; i++) {
-            Point point = getFreePointNear(x, y);
-            units.add(new Unit(point.x, point.y, player, UnitType.MEDIC));
+            if (point == null) return;
+            if (i % 6 == 0)
+                units.add(new Unit(point.x, point.y, player, UnitType.MEDIC));
+            else
+                units.add(new Unit(point.x, point.y, player, UnitType.SOLDIER));
         }
 
     }

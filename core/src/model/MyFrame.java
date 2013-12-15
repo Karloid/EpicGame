@@ -101,7 +101,8 @@ public class MyFrame extends JFrame {
             MyFrame.this.isPainting = true;
             //   g.translate(X_OFFSET, Y_OFFSET);
             drawTerrain(g);
-            drawGrid(g);
+            drawCorpses(g);
+            //  drawGrid(g);
             drawUnits(g);
             drawScore(g);
             drawMoves(g);
@@ -109,6 +110,14 @@ public class MyFrame extends JFrame {
             MyFrame.this.isPainting = false;
 
         }
+    }
+
+    private void drawCorpses(Graphics g) {
+        g.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, cellSize));
+        for (Corpse corpse : world.corpses) {
+            corpse.draw(g, cellSize);
+        }
+
     }
 
     private void drawMoves(Graphics g) {
