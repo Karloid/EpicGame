@@ -3,7 +3,7 @@ package model;
 
 public class Game {
     private World world;
-    private double shootingRange = 6;
+    private int shootingRange = 4;
     private int soldierShootDamage = 15;
     private int maximumHP = 100;
     private int medicHealAmount = 10;

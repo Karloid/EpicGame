@@ -12,6 +12,7 @@ public class QuickGuy2 implements Strategy {
     public static final int MAX_PATH = 999;
     public static final int DISTANCE_TO_WAYPOINT = 5;
     private static final int SELF_MEDIC_MAX_HP = 100;
+    private static final double MEDIC_HEAL_DISTANCE = 6;
     private World world;
     private Game game;
     private Move move;
@@ -174,6 +175,25 @@ public class QuickGuy2 implements Strategy {
                     }
                 }
             }
+
+        if (self.getType() == UnitType.MEDIC) {
+            Unit unitToHeal = null;
+            for (Unit unit : units) {
+                if (unit.isTeamatte(self) && unit != self) {
+                    if (unit.getHp() < game.getMaximumHP() && world.getDistance(self, unit) == MEDIC_HEAL_DISTANCE) {
+                        if (unitToHeal == null || world.getDistance(unit, self) < world.getDistance(unitToHeal, self) ) {
+                            unitToHeal = unit;
+                        }
+                    }
+                }
+            }
+            if (unitToHeal != null) {
+                move.setAction(ActionType.MOVE);
+                moveReal(new Point(unitToHeal), 0, 0, false, true);
+          //      log("move to heal target");
+                return true;
+            }
+        }
         return false;
     }
 
@@ -199,7 +219,7 @@ public class QuickGuy2 implements Strategy {
         } else {
             for (Unit unit : units) {
                 if (unit.getId() == captainId) {
-                    moveReal(world.getFreePointNear(new Point(unit)), 10, 0, true, true);
+                    moveReal(world.getFreePointNear(new Point(unit)), 10, 0, true, false);
                     break;
                 }
             }
@@ -223,9 +243,9 @@ public class QuickGuy2 implements Strategy {
 
         //moveReal(movePoints.get(movePointIndex), 1, 0);
 
-        moveReal(new Point(self), 0, 0, false, true);
+        moveReal(new Point(self), 0, 0, false, false);
         if (path[movePoints.get(movePointIndex).x][movePoints.get(movePointIndex).y] != 999) {
-            moveReal(movePoints.get(movePointIndex), 0, 0, true, true);
+            moveReal(movePoints.get(movePointIndex), 0, 0, true, false);
         } else {
             Point point = null;
             for (int x = 0; x < world.getWidth(); x++) {
@@ -239,7 +259,7 @@ public class QuickGuy2 implements Strategy {
                     }
                 }
             }
-            moveReal(point, 0, 0, true, true);
+            moveReal(point, 0, 0, true, false);
         }
         //  log("captain move " + move + " " + self);
     }

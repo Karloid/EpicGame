@@ -27,6 +27,8 @@ public class World {
         delayTurnMs = 100;
 
         initFreeCells();
+
+        randomizeCells();
         randomizeCells();
 
         moves = new HashMap<Unit, Move>();
@@ -36,8 +38,14 @@ public class World {
 
     }
 
+    private void mapCellsArena() {
+        createCellsRectangle((width / 5) * 2, (height / 5 ) * 2, (width / 5) , (height / 5) );
+
+    }
+
     private void randomizeCells() {
         //...
+        createCellsRectangle((width / 5) * 2, (height / 5 ) * 2, (width / 5) , (height / 5) );
         for (int i = 0; i < 15; i++)
             createCellsRectangle((int) (width * Math.random()), (int) (height * Math.random()), 1 + (int) (width / 6 * Math.random()), 1 + (int) (height / 6 * Math.random()));
     }

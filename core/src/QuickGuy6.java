@@ -8,7 +8,7 @@ import java.util.Set;
 import static model.Direction.*;
 
 
-public class QuickGuy1 implements Strategy {
+public class QuickGuy6 implements Strategy {
     public static final int MAX_PATH = 999;
     public static final int DISTANCE_TO_WAYPOINT = 5;
     private static final int SELF_MEDIC_MAX_HP = 100;
