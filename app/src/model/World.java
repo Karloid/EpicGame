@@ -28,8 +28,8 @@ public class World {
 
         initFreeCells();
 
-        randomizeCells();
-        randomizeCells();
+      /*  randomizeCells();
+        randomizeCells(); */
 
         moves = new HashMap<Unit, Move>();
 

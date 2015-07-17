@@ -2,12 +2,13 @@ import model.*;
 
 import java.util.List;
 
-public class DummyStrategy implements Strategy {
+public class MyStrategy implements Strategy {
     private World world;
     private Game game;
     private Move move;
     private Unit self;
     private List<Unit> units;
+    int dieection;
 
     @Override
     public void move(Game game, World world, Unit self, Move move) {
@@ -20,6 +21,7 @@ public class DummyStrategy implements Strategy {
 
         if (shootActions())
             return;
+
 
         if (moveActions())
              return;
@@ -42,17 +44,14 @@ public class DummyStrategy implements Strategy {
     }
 
     private boolean moveActions() {
-        double random = Math.random();
-
-        if (random < 0.25f) {
-            move.setDirection(Direction.NORTH);
-        } else if (random < 0.5f) {
-            move.setDirection(Direction.SOUTH);
-        }   else if (random < 0.75f) {
-            move.setDirection(Direction.WEST); // запад
-        }  else {
-            move.setDirection(Direction.EAST); // восток
+        if (dieection%2==0) {
+            move.setDirection(Direction.EAST);
         }
+        else {
+            move.setDirection(Direction.SOUTH);
+        }
+          dieection=dieection+1;
+
         return true;
     }
 }
