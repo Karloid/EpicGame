@@ -12,6 +12,7 @@ public class MyFrame extends JFrame {
     public static final int X_OFFSET = 5;
     private final World world;
     boolean isPainting;
+    private final MyPanel panel;
 
     public MyFrame(World world, int cellSize) throws HeadlessException {
         this.world = world;
@@ -19,19 +20,20 @@ public class MyFrame extends JFrame {
         setSize(world.width * MyFrame.cellSize + X_OFFSET * 2, world.height * MyFrame.cellSize + Y_OFFSET + 7);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.add(new MyPanel());
-        isPainting = false;
+        panel = new MyPanel();
+        this.add(panel);
+        panel.setSize(getSize());
 
+        isPainting = false;
     }
 
     public void update() {
-        repaint();
+        panel.repaint();
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
     }
 
     private void drawDebug(Graphics g) {
@@ -70,7 +72,6 @@ public class MyFrame extends JFrame {
                 if (world.getCells()[x][y] == CellType.COVER) {
                     g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                 }
-                ;
             }
 
     }

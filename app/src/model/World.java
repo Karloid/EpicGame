@@ -34,8 +34,6 @@ public class World {
         moves = new HashMap<Unit, Move>();
 
         frame = new MyFrame(this, cellSize);
-
-
     }
 
     private void mapCellsArena() {
@@ -211,7 +209,6 @@ public class World {
             applyMove(unit, move);
         }
         removeDeadUnits();
-        frame.isPainting = true;
         frame.update();
 
         checkEndGame();
